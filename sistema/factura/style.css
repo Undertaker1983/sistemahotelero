@@ -1,0 +1,323 @@
+@import url('fonts/BrixSansRegular.css');
+@import url('fonts/BrixSansBlack.css');
+@import url('fonts/Roboto.css');
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+p, label, span, table{
+	font-family: 'BrixSansRegular';
+	font-size: 10pt;
+	/*font-weight: bold;*/
+}
+.encabezado{
+	font-family: 'Roboto', sans-serif;
+	font-size: 9pt;
+	font-weight: bold;
+	/*display: inline-block;*/
+}
+
+.encabezado_cotizacion{
+	font-family: 'Roboto', sans-serif;
+	font-size: 15pt;
+	font-weight: bold;
+	text-align: center;
+	/*display: inline-block;*/
+}
+
+.enc_empresa{
+	font-family: 'Roboto', sans-serif;
+	font-size: 9pt;
+	font-weight: bold;
+	/*display: inline-block;*/
+}
+
+
+
+.h2{
+	font-family: 'BrixSansBlack';
+	font-size: 16pt;
+}
+.h3{
+	font-family: 'BrixSansBlack';
+	font-size: 13pt;
+	display: block;
+	background: #0a4661;
+	color: #FFF;
+	text-align: center;
+	padding: 3px;
+	margin-bottom: 5px;
+}
+
+.referencias{
+	font-family: 'BrixSansBlack';
+	font-size: 11pt;
+	/*display: block;
+	background: #9b0404;
+	color: #FFF;
+	text-align: center;
+	margin-bottom: 5px;
+	padding: 3px;*/
+	
+}
+
+.titulo{
+	font-family: 'BrixSansBlack';
+	font-size: 12pt;
+	display: block;
+	background: #9b0404;
+	color: #FFF;
+	text-align: center;
+	padding: 3px;
+	margin-bottom: 5px;
+}
+.titulo2{
+	font-family: 'BrixSansBlack';
+	font-size: 15pt;
+	display: block;
+	background: #146C39;
+	color: #FFF;
+	text-align: center;
+	padding: 3px;
+	margin-bottom: 5px;
+}
+.titulo_cotizacion{
+	font-family: 'BrixSansBlack';
+	font-size: 12pt;
+	display: block;
+	background: #146C39;
+	color: #FFF;
+	text-align: center;
+	padding: 3px;
+	margin-bottom: 5px;
+}
+
+#page_pdf{
+	width: 95%;
+	margin: 15px auto 10px auto;
+}
+
+#factura_head, #factura_cliente, #factura_detalle,#orden_detalle,#orden_cliente,#orden_equipo,#orden_informe,#detalle_cotizacion{
+	width: 100%;
+	margin-bottom: 10px;
+}
+.logo_factura{
+	width: 25%;
+}
+.info_empresa{
+	width: 50%;
+	text-align: center;
+}
+.info_factura{
+	width: 25%;
+
+}
+.info_cliente{
+	width: 100%;
+}
+.info_orden{
+	width: 100%;
+}
+.info_equipo{
+	width: 100%;
+}
+.info_informe{
+	width: 100%;
+}
+.datos_cliente{
+	width: 100%;
+}
+.datos_cliente tr td{
+	width: 50%;
+}
+.datos_cliente{
+	padding: 10px 10px 0 10px;
+}
+.datos_cliente label{
+	width: 75px;
+	display: inline-block;
+}
+.datos_cliente p{
+	display: inline-block;
+}
+
+.datos_cliente_cotizacion{
+	width: 100%;
+}
+.datos_cliente_cotizacion tr td{
+	width: 50%;
+}
+
+.datos_cliente_cotizacion{
+	padding: 10px 10px 0 10px;
+}
+.datos_cliente_cotizacion label{
+	width: 75px;
+	display: inline-block;
+}
+.datos_cliente_cotizacion p{
+	display: inline-block;
+}
+
+
+.datos_equipo{
+	width: 100%;
+}
+.datos_equipo tr td{
+	width: 50%;
+}
+.datos_equipo{
+	padding: 10px 10px 0 10px;
+}
+.datos_equipo label{
+	width: 75px;
+	display: inline-block;
+}
+.datos_equipo p{
+	display: inline-block;
+}
+
+.datos_equipo2{
+	width: 100%;
+	border-radius: 10px;
+	border: 1px solid #0a4661;
+}
+.datos_equipo2 tr td{
+	width: 50%;
+}
+.datos_equipo2{
+	padding: 10px 10px 0 10px;
+}
+.datos_equipo2 label{
+	width: 75px;
+	/*display: inline-block;*/
+}
+.datos_equipo2 p{
+	/*display: inline-block;*/
+}
+
+.pie_pagina{
+	width: 100%;
+	border-radius: 10px;
+	border: 1px solid #0a4661;
+}
+.pie_pagina tr td{
+	width: 50%;
+}
+.pie_pagina{
+	padding: 10px 10px 0 10px;
+}
+.pie_pagina label{
+	width: 85px;
+	display: inline-block;
+}
+.pie_pagina p{
+	display: inline-block;
+}
+.textright{
+	text-align: right;
+}
+.textleft{
+	text-align: left;
+}
+.textcenter{
+	text-align: center;
+}
+.round{
+	border-radius: 10px;
+	border: 1px solid #0a4661;
+	overflow: hidden;
+	padding-bottom: 15px;
+}
+.round p{
+	padding: 0 15px;
+}
+
+.round_cuadro{
+	border-radius: 10px;
+	border: 1px solid #9b0404;
+	overflow: hidden;
+	padding-bottom: 15px;
+}
+.round_cuadro p{
+	padding: 0 15px;
+}
+.round_informe{
+	border-radius: 10px;
+	border: 1px solid #146C39;
+	overflow: hidden;
+	padding-bottom: 15px;
+}
+.round_informe p{
+	padding: 0 15px;
+}
+
+.round_cotizacion{
+	width: 100%;
+	border-collapse: collapse;
+	border-radius: 10px;
+	border: 1px solid #146C39;
+	overflow: hidden;
+	padding-bottom: 10px;
+}
+.round_cotizacion p{
+	
+	padding: 0 10px;
+}
+
+#orden_informe{
+	border-collapse: collapse;
+}
+#orden_informe thead th{
+	background: #06b83f;
+	color: #FFF;
+	padding: 5px;
+}
+
+
+#factura_detalle{
+	border-collapse: collapse;
+}
+#factura_detalle thead th{
+	background: #058167;
+	color: #FFF;
+	padding: 5px;
+}
+#detalle_cotizacion{
+	border-collapse: collapse;
+}
+#detalle_cotizacion thead th{
+	background: #3f8457;
+	color: #FFF;
+	padding: 5px;
+}
+
+#detalle_productos tr:nth-child(even) {
+    background: #ededed;
+}
+#detalle_totales span{
+	font-family: 'BrixSansBlack';
+}
+.nota{
+	font-size: 8pt;
+}
+.label_gracias{
+	font-family: verdana;
+	font-weight: bold;
+	font-style: italic;
+	text-align: center;
+	margin-top: 20px;
+}
+.label_encabezados{
+	font-family: 'Roboto', sans-serif;
+	font-weight: bold;
+	font-size: 9pt;
+	/*margin-top: 20px;*/
+}
+.anulada{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translateX(-50%) translateY(-50%);
+}
