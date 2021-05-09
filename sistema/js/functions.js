@@ -1535,11 +1535,12 @@ function MostrarAlerta(titulo,descripcion,tipoAlerta){
                 $('#btn_consumo_hab').click(function(e){
                             e.preventDefault();
                             var rows = $('#detalle_venta tr').length;
-
+                            //var estado_pago = $('#estado_pago').html();
                             if (rows > 0) 
                             {
                                  var action = 'procesarConsumo';
                                  var idalojamiento = $('#idalojamiento').val();
+                                 
                                  $.ajax({
                                         url     : 'ajax.php',
                                         type    : "POST",

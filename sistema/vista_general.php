@@ -32,8 +32,8 @@ include "includes/nav_admin.php";
 							<?php 
 							
 							$query = mysqli_query($conection,"SELECT h.idhabitacion,h.nombre_habitacion,h.detalles,h.condicion,c.idcategoria,c.nombre_categoria	FROM  habitaciones h INNER JOIN
-								categorias c ON h.idcategoria = c.idcategoria
-								WHERE h.estado = 1 ORDER BY h.idhabitacion");
+								categorias c ON h.idcategoria = c.idcategoria 
+								WHERE h.estado = 1 ORDER BY h.nombre_habitacion ASC");
 //personas p ON h.idpersona = p.idpersona INNER JOIN
 							mysqli_close($conection);
 

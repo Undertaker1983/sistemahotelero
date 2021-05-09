@@ -1,9 +1,9 @@
-@import url(../fonts/GothamBook.css);
-@import url(../fonts/GothamBold.css);
-@import url(../fonts/RobotoCondensed.css);
-@import url(../fonts/FjallaOne.css);
-@import url(../fonts/FrancoisOne.css);
-@import url(../fonts/PassionOne.css);
+@import url(fonts/GothamBook.css);
+@import url(fonts/GothamBold.css);
+@import url(fonts/RobotoCondensed.css);
+@import url(fonts/FjallaOne.css);
+@import url(fonts/FrancoisOne.css);
+@import url(fonts/PassionOne.css);
 *{
 	margin: 0;
 	padding: 0;

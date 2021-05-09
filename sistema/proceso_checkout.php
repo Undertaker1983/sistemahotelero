@@ -6,24 +6,26 @@ include "../conexion.php";
 if(!empty($_POST))
 {
 	$alert='';
-	if(empty($_POST['fecha_ingreso']))
+	if(empty($_POST['total_pago']))
 	{
 		$alert='<p class="msg_error">El campo fecha es obligatorio.</p>';
 	}else{
 		
-		$idhabitacion 			= $_POST['idhabitacion'];
+		$idalojamiento 			= $_POST['idalojamiento'];
 		$usuario_id    			= $_SESSION['idUser'];
 		$fecha_emision			= $_POST['fecha_emision'];
-		$numero_comprobante   	= $_POST['numero_comprobante'];
+		
+		//$numero_comprobante   	= $_POST['numero_comprobante'];
 		$total_pago   			= $_POST['total_pago'];
-		$estado_habitacion		= "Disponible";
+				
 		//echo "Total =".$ptotal.;
-		$query_insert = mysqli_query($conection,"INSERT INTO pago(idhabitacion,idusuario,fecha_emision,numero_comprobante,total_pago) VALUES('$idhabitacion','$usuario_id','$fecha_emision','$numero_comprobante','$total_pago')");
+		$query_insert = mysqli_query($conection,"INSERT INTO pago(idalojamiento,idusuario,fecha_emision,total_pago) VALUES('$idalojamiento','$usuario_id','$fecha_emision','$total_pago')");
 
-		$query_update = mysqli_query($conection,"UPDATE habitaciones SET condicion = '$estado_habitacion' WHERE idhabitacion = $idhabitacion");
+		$query_updalojamiento = mysqli_query($conection,"UPDATE alojamiento SET estado_pago = 'Cancelado' WHERE idalojamiento = $idalojamiento");
+		$query_update = mysqli_query($conection,"UPDATE habitaciones SET condicion = 'Limpieza' WHERE idhabitacion = $idhabitacion");
 
 		if($query_insert){ 
-			header("location: recepcion.php");
+			header("location: proceso_checkout.php");
 			echo 'Guardado correctamente';				
 			//$alert='<p class="msg_save">Orden registrado correctamente.</p>';
 		}else{
@@ -31,7 +33,7 @@ if(!empty($_POST))
 			echo 'Error al registrar.';
 		}
 	}
-}			
+}		
 
 
 //Mostrar Datos
@@ -42,7 +44,7 @@ if (empty($_REQUEST['id'])) {
 	$id_alojamiento = $_REQUEST['id'];
 	
 
-	$query_alojamiento = mysqli_query($conection,"SELECT a.idalojamiento,a.idhabitacion,a.idpersona,a.fecha_ingreso,a.hora_ingreso,a.fecha_salida,a.hora_salida,a.precio,a.anticipo,a.cant_noches,a.cant_personas,a.estado_pago,a.medio_pago,a.estado,h.nombre_habitacion,h.condicion,p.nombre,p.cedula,p.telefono,c.precio_consumo,c.cantidad,pr.descripcion,pr.precio as punitario		FROM  alojamiento a INNER JOIN
+	$query_alojamiento = mysqli_query($conection,"SELECT a.idalojamiento,a.idhabitacion,a.idpersona,a.fecha_ingreso,a.hora_ingreso,a.fecha_salida,a.hora_salida,a.precio,a.anticipo,a.cant_noches,a.cant_personas,a.estado_pago,a.medio_pago,a.estado,h.idhabitacion,h.nombre_habitacion,h.condicion,p.nombre,p.cedula,p.telefono,c.precio_consumo,c.cantidad,pr.descripcion,pr.precio as punitario		FROM  alojamiento a INNER JOIN
 		habitaciones h ON a.idhabitacion = h.idhabitacion INNER JOIN
 		personas p ON a.idpersona = p.idpersona INNER JOIN
 		consumo c ON c.idalojamiento = a.idalojamiento  INNER JOIN
@@ -201,6 +203,9 @@ if (empty($_REQUEST['id'])) {
 				<div class="tile">
 					<div class="tile-body">
 						<div class="table-responsive">	
+							<form action="" method="post">
+									<input type="hidden" value="<?php echo date("Y/m/d");?>" name="fecha_emision" readonly>
+									<input type="hidden" id="idalojamiento" name="idalojamiento" value="<?php echo $data_alojamiento['idalojamiento']; ?>">
 							<table class="table table-hover" id="tablacheck">
 								<thead class="thead-light">
 								<tr>
@@ -224,11 +229,12 @@ if (empty($_REQUEST['id'])) {
 								</tr>
 								
 								<?php
-									$precio 	= round($data_alojamiento['precio'],2);
-									$anticipo   = round($data_alojamiento['anticipo'],2);
-									$total_pago = number_format($precio - $anticipo, 2);
-									$consumo    = round($data_alojamiento['precio_consumo'],2);
-									$total      = number_format($total_pago + $consumo, 2);
+									$precio 			= round($data_alojamiento['precio'],2);
+									$anticipo   		= round($data_alojamiento['anticipo'],2);
+									$total_hospedaje	= number_format($precio - $anticipo, 2);
+									$consumo    		= round($data_alojamiento['precio_consumo'],2);
+									$total      		= number_format($total_hospedaje + $consumo, 2);
+									$total_factura		= number_format($precio + $consumo, 2);
 								?>
 
 								<tr>
@@ -242,12 +248,12 @@ if (empty($_REQUEST['id'])) {
 									<td></td>
 									
 									<td style="border-right-width:3px;border-right-style:solid";>
-										<input class="form-control col-md-3" type="text" name="total_pago" id="total_pago" value="<?php echo $total_pago; ?>" readonly>
+										<input class="form-control col-md-3" type="text" name="total_hospedaje" value="<?php echo $total_hospedaje; ?>" readonly>
 									</td>
 								</tr>
 								<thead class="thead-light">
 								<tr>
-									<th colspan="7" style="border-right-width:3px;border-right-style:solid";>Servicio a la Habitación</th>
+									<th colspan="7" style="border-right-width:3px;border-right-style:solid">Servicio a la Habitación</th>
 									
 								</tr>
 								</thead>	
@@ -289,17 +295,19 @@ if (empty($_REQUEST['id'])) {
 									<td></td>
 									
 									<td colspan="5" class="col-md-4" style="border-right-width:3px;border-right-style:solid";><h5>Total a Pagar $.</h5></td>
-									<td><input class="form-control col-md-3" type="text" name="total_pago" id="total_pago" value="<?php echo $total; ?>" readonly></td>	
+									<td>
+										<input class="form-control col-md-3" type="text" name="total" id="total" value="<?php echo $total; ?>" readonly>
+										<input type="hidden" name="total_pago" id="total_pago" value="<?php echo $total_factura; ?>">
+
+									</td>	
 								</tr>
+								
 								</thead>
 							</table>
-								<form action="" method="post">
-									<input type="hidden" id="idhabitacion" name="idhabitacion" value="<?php echo $data_habitacion['idhabitacion']; ?>">
-																					
-																			
+																										
 											<div class="tile-footer">
 												<center>
-													<button type="submit" id="register" class="btn btn-primary"><i class="fa fa-fw fa-lg fa-print"></i> Imprimir Factura</button>&nbsp;&nbsp;&nbsp;<button type="submit" id="register" class="btn btn-warning"><i class="fa fa-fw fa-lg fa-print"></i> Imprimir Ticket</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary btn_cancelar" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
+													<button type="submit" id="register" class="btn btn-primary"><i class="fa fa-fw fa-lg fa-print"></i> Imprimir Factura</button>&nbsp;&nbsp;&nbsp;<button type="submit" id="#" class="btn btn-warning"><i class="fa fa-fw fa-lg fa-print"></i> Imprimir Ticket</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary btn_cancelar" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
 												</center>
 											</div>
 											
@@ -350,23 +358,17 @@ if (empty($_REQUEST['id'])) {
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript">
+		<<script type="text/javascript">
 			$(function(){
 				$('#register').click(function(e){
 					var valid = this.form.checkValidity();
 
 					if(valid){
-						var idhabitacion            = $('#idhabitacion').val();
-						var idpersona 				= $('#idpersona').val();
-						var fecha_ingreso			= $('#fecha_ingreso').val();
-						var hora_ingreso 			= $('#hora_ingreso').val();
-						var fecha_salida 			= $('#fecha_salida').val();
-						var hora_salida 			= $('#hora_salida').val();
-						var cant_personas 			= $('#cant_personas').val();
-						var cant_noches 			= $('#cant_noches').val();
-						var medio_pago 				= $('#medio_pago').val();
-						var estado_pago 			= $('#estado_pago').val();
-						var precio 					= $('#precio').val();
+						var idalojamiento            = $('#idalojamiento').val();
+						var fecha_emision			= $('#fecha_emision').val();
+						
+						//var numero_comprobante 		= $('#numero_comprobante').val();
+						var total_pago 				= $('#total_pago').val();
 
 
 
@@ -375,8 +377,7 @@ if (empty($_REQUEST['id'])) {
 						$.ajax({
 							type: 'POST',
 							url: 'proceso_checkout.php',
-							data: {idhabitacion:idhabitacion,idpersona: idpersona,fecha_ingreso: fecha_ingreso,hora_ingreso
-								: hora_ingreso,fecha_salida: fecha_salida,hora_salida:hora_salida,cant_personas:cant_personas,cant_noches,medio_pago: medio_pago,estado_pago:estado_pago,precio:precio},
+							data: {idalojamiento:idalojamiento,fecha_emision: fecha_emision,total_pago:total_pago},
 								success: function(data){
 									Swal.fire({
 										icon: 'success',

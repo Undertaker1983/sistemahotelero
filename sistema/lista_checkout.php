@@ -33,15 +33,10 @@ include "includes/nav_admin.php";
 							<?php
 							$ocupado = "Ocupado";
 							
-							$query = mysqli_query($conection,"SELECT a.idalojamiento,a.idhabitacion,a.idpersona,a.fecha_ingreso,a.hora_ingreso,a.fecha_salida,a.hora_salida,a.precio,a.cant_noches,a.cant_personas,a.estado_pago,a.medio_pago,a.estado,h.nombre_habitacion,h.condicion	FROM  alojamiento a INNER JOIN
+							$query = mysqli_query($conection,"SELECT a.idalojamiento,a.idhabitacion,a.idpersona,a.cant_noches,a.cant_personas,a.estado_pago,a.medio_pago,a.estado,h.nombre_habitacion,h.condicion	FROM  alojamiento a INNER JOIN
 								habitaciones h ON a.idhabitacion = h.idhabitacion 
+								WHERE a.estado_pago = 'Falta Cancelar' ");
 
-								WHERE a.estado = 1 ");
-
-							/*$query = mysqli_query($conection,"SELECT a.idalojamiento,a.idhabitacion,a.idpersona,a.fecha_ingreso,a.hora_ingreso,a.fecha_salida,a.hora_salida,a.precio,a.cant_noches,a.cant_personas,a.estado_pago,a.medio_pago,a.estado,h.nombre_habitacion,h.condicion,p.nombre	FROM  alojamiento a INNER JOIN
-								habitaciones h ON a.idhabitacion = h.idhabitacion INNER JOIN
-								personas p ON a.idpersona = p.idpersona 
-								WHERE h.condicion = '$ocupado' AND a.estado = 1 ");*/
 
 							mysqli_close($conection);
 
@@ -52,15 +47,14 @@ include "includes/nav_admin.php";
 									if ($data["estado_pago"] == 'Falta Cancelar') {
 										$condicion = 'danger';
 										$icondicion = 'icon fa fa-ban fa-3x';
-										$act_condicion = '';
-										$href	= '#';
+										
 									}
-									if ($data["estado_pago"] == 'Cancelado') {
+									/*if ($data["estado_pago"] == 'Cancelado') {
 										$condicion = 'primary';
 										$icondicion = 'icon fa fa-money fa-3x';
-										$act_condicion = 'fin_mantenimiento';
-										$href = '#';
-									}
+										//$act_condicion = 'fin_mantenimiento';
+										//$href = '#';
+									}*/
 									?>
 									<div class="col-md-3">
 										<a class="simple" href="proceso_checkout.php?id=<?php echo $data["idalojamiento"] ?>">
@@ -104,32 +98,7 @@ include "includes/nav_admin.php";
 <!-- Page specific javascripts
 <script src="js/sweetalert2.all.min.js"></script>-->
 <script src="//cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
-<!-- Data table plugin-->
-<script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
-<script type="text/javascript">$('#tablahab').DataTable({
-  "language": {
-    
-        "emptyTable": "No hay información",
-        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-        "infoPostFix": "",
-        "thousands": ",",
-        "lengthMenu": "Mostrar _MENU_ Entradas",
-        "loadingRecords": "Cargando...",
-        "processing": "Procesando...",
-        "search": "Buscar:",
-        "zeroRecords": "Sin resultados encontrados",
-        "paginate": {
-            "first": "Primero",
-            "last": "Ultimo",
-            "next": "Siguiente",
-            "previous": "Anterior"
-        }
-  }
-});
-</script>
+
 <!-- The javascript plugin to display page loading on top-->
 <script src="js/plugins/pace.min.js"></script>
 <!-- Page specific javascripts-->

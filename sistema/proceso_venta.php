@@ -240,10 +240,20 @@ if (empty($_REQUEST['id'])) {
 									</table>
 								</div>
 								<br>
+								
+								<div class="">
+								<select name="estado_pago" id="estado_pago" class="form-control col-md-2">
+												<option value="Pagado">Pagado</option>
+												<option value="Falta Cancelar">Falta Cancelar</option>
+											</select>
+								</div>
 								<center>
-									<div class="datos_cliente">
+									
+									<div class="tile-footer">
+										
 										<div id="acciones_venta">
-											<a href="#" class="btn btn-secondary" id=""><i class="fa fa-ban"></i> Cancelar</a>
+											<a href="#" class="btn btn-secondary" id=""><i class="fa fa-ban"></i> Cancelar</a>&nbsp;&nbsp;&nbsp;
+											
 											<a href="#" class="btn btn-primary" id="btn_consumo_hab" i class="fa fa-arrow-circle-down"></i> Terminar venta</a>
 										</div>
 									</div>
@@ -297,7 +307,7 @@ if (empty($_REQUEST['id'])) {
 					var idalojamiento			= $('#idalojamiento').val();
 					var cantidad 				= $('#cantidad').val();
 					var precio 					= $('#precio').val();
-
+					var estado_pago 			= $('#estado_pago').val();
 
 
 					e.preventDefault();	
@@ -305,7 +315,7 @@ if (empty($_REQUEST['id'])) {
 					$.ajax({
 						type: 'POST',
 						url: 'proceso_venta.php',
-						data: {idalojamiento: idalojamiento,cantidad: cantidad,precio: precio},
+						data: {idalojamiento: idalojamiento,cantidad: cantidad,precio: precio,estado_pago:estado_pago},
 						success: function(data){
 							Swal.fire({
 								icon: 'success',

@@ -32,7 +32,7 @@
         <li><a class="app-menu__item" href="index.php"><i class="app-menu__icon fa fa-home"></i><span class="app-menu__label">RESERVAS</span></a></li>
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-arrow-circle-up"></i><span class="app-menu__label">INGRESOS</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
-            <li><a class="treeview-item" href="../venta_producto.php"><i class="icon fa fa-file-invoice-dollar"></i> Venta de Poroducto</a></li>
+            <li><a class="treeview-item" href="../pre_venta_prod.php"><i class="icon fa fa-file-invoice-dollar"></i> Venta de Poroducto</a></li>
             <li><a class="treeview-item" href="../ventas.php"><i class="icon fa fa-file-invoice-dollar"></i> Facturas de Venta</a></li>
             <li><a class="treeview-item" href="#"><i class="icon fa fa-file-invoice"></i> Notas de crédito</a></li>
             <li><a class="treeview-item" href="../lista_pagos.php"><i class="icon fa fa-dollar-sign"></i> Pagos recibidos</a></li>

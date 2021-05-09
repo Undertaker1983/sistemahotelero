@@ -16,7 +16,7 @@ $events = mysqli_fetch_all($req, MYSQLI_ASSOC);
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
 	<!-- Bootstrap Core CSS -->
-	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="../css/bootstrap.min.css" rel="stylesheet">
 
 	<!-- FullCalendar -->
 	<link href="css/fullcalendar.css" rel="stylesheet"/>	
