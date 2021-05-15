@@ -7,45 +7,6 @@ if($_SESSION['rol'] != 1)
 
 include "../conexion.php";
 
-if(!empty($_POST))
-{
-	$alert='';
-	if(empty($_POST['nombre']) || empty($_POST['correo']) || empty($_POST['usuario']) || empty($_POST['clave']) || empty($_POST['rol']))
-	{
-		$alert='<p class="msg_error">Todos los campos son obligatorios.</p>';
-	}else{
-
-		$nombre = $_POST['nombre'];
-		$email  = $_POST['correo'];
-		$user   = $_POST['usuario'];
-		$clave  = md5($_POST['clave']);
-		$rol    = $_POST['rol'];
-
-
-		$query = mysqli_query($conection,"SELECT * FROM usuario WHERE usuario = '$user' OR correo = '$email' ");
-			//mysqli_close($conection);
-		$result = mysqli_fetch_array($query);
-
-		if($result > 0){
-			$alert='<p class="msg_error">El correo o el usuario ya existe.</p>';
-		}else{
-
-			$query_insert = mysqli_query($conection,"INSERT INTO usuario(nombre,correo,usuario,clave,rol)
-				VALUES('$nombre','$email','$user','$clave','$rol')");
-			if($query_insert){
-				$alert='<p class="msg_save">Usuario creado correctamente.</p>';
-			}else{
-				$alert='<p class="msg_error">Error al crear el usuario.</p>';
-			}
-
-		}
-
-
-	}
-
-}
-
-
 
 ?>
 
@@ -147,60 +108,99 @@ include "includes/nav_admin.php";
 <!-- Page specific javascripts-->
 <script src="js/sweetalert2.all.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>	
-<script type="text/javascript">
-	$(function(){
-		$('#register').click(function(e){
-			var valid = this.form.checkValidity();
-
-			if(valid){
-				
-				var nombre 					= $('#nombre').val();
-				var correo 					= $('#correo').val();
-				var usuario 				= $('#usuario').val();
-				var clave 					= $('#clave').val();
-				var rol 					= $('#rol').val();
-				
-				e.preventDefault();	
-
-				$.ajax({
-					type: 'POST',
-					url: 'registro_usuario.php',
-					data: {nombre: nombre,correo: correo, usuario: usuario, clave: clave, rol: rol},
-					success: function(data){
-						Swal.fire({
-							icon: 'success',
-							title: 'Guardando...',
-							text: 'Datos guardados correctamente',
-							showConfirmButton: true,
-									/*'title': 'Successful',
-									'text': data,
-									'type': 'success'*/
-								});
-
-					},
-					error: function(data){8
-						Swal.fire({
-							title: 'Error',
-							text: 'Error al guardar el registro.',
-							type: 'error'
-						});
-					}
-				});
-
-
-			}else{
-
-			}
-
-
-
-
-
-		});		
-
-
-	});	
-</script>
-
 </body>
 </html>
+
+
+<?php 
+include "../conexion.php";
+
+if(!empty($_POST))
+{
+	$alert='';
+	if(empty($_POST['nombre']) || empty($_POST['correo']) || empty($_POST['usuario']) || empty($_POST['clave']) || empty($_POST['rol']))
+	{
+		?>
+		
+		
+		<script type="text/javascript">
+			Swal.fire({
+									icon : 'error',
+									title: 'Error',
+									text: 'Todos los campos son obligatorios',
+									type: 'error',
+								});
+		</script>
+		
+		<?php 
+		
+	}else{
+
+		$nombre = $_POST['nombre'];
+		$email  = $_POST['correo'];
+		$user   = $_POST['usuario'];
+		$clave  = md5($_POST['clave']);
+		$rol    = $_POST['rol'];
+
+
+		$query = mysqli_query($conection,"SELECT * FROM usuario WHERE usuario = '$user' OR correo = '$email' ");
+			//mysqli_close($conection);
+		$result = mysqli_fetch_array($query);
+
+		if($result > 0){
+			?>
+		
+		<script type="text/javascript">
+			Swal.fire({
+									icon : 'warning',
+									title: 'Duplicado',
+									text: 'El correo o el usuario ya existe.',
+									
+								});
+		</script>
+		
+		<?php 
+			
+		}else{
+
+			$query_insert = mysqli_query($conection,"INSERT INTO usuario(nombre,correo,usuario,clave,rol)
+				VALUES('$nombre','$email','$user','$clave','$rol')");
+			if($query_insert){
+				?>
+			
+			<script type="text/javascript">
+				Swal.fire({
+									icon: 'success',
+									title: 'Guardando...',
+									text: 'Datos registrados correctamente',
+									showConfirmButton: true,
+									
+								});
+			</script>
+			
+			<?php 
+			}else{
+				?>
+		
+		<script type="text/javascript">
+			Swal.fire({
+									icon : 'error',
+									title: 'Error',
+									text: 'Error al registrar producto',
+									type: 'error',
+								});
+		</script>
+		
+		<?php 
+			}
+
+		}
+
+
+	}
+
+}
+
+
+
+?>

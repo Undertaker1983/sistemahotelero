@@ -112,7 +112,11 @@ if (empty($_REQUEST['id'])) {
 							
 						</tr>
 						<tr>	
-
+							<?php 
+							if ($data_habitacion["condicion"] == 'Disponible') {
+							$condicion = '<span class="disponible">Disponible</span>';
+							}
+							 ?>
 
 							<td>
 								<label for="detalles"><font color="#0982C3"><b>Detalles</b></font></label>
@@ -126,7 +130,7 @@ if (empty($_REQUEST['id'])) {
 								<label for="estado"><font color="#0982C3"><b>Estado</b></font></label>
 							</td>
 							<td>
-								<?php echo $data_habitacion['condicion']; ?>
+								<?php echo $condicion ?>
 
 							</td>
 						</tr>
@@ -152,7 +156,7 @@ if (empty($_REQUEST['id'])) {
 					</div>
 					<div class="form-group col-md-6">
 						<label class="control-label"><font size="2">Email</font></label>
-						<input class="form-control" type="text" name="cor_cliente" id="cor_cliente" disabled>
+						<input class="form-control" type="text" name="cor_cliente" id="cor_cliente" placeholder="Email" disabled>
 					</div>
 
 					<div class="form-group col-md-9">
@@ -166,12 +170,12 @@ if (empty($_REQUEST['id'])) {
 					
 					<div class="form-group col-md-6">			
 						<label class="control-label"><font size="2">Razón Social</font></label>
-						<input type="text" class="form-control" name="razon_cliente" id="razon_cliente" disabled>
+						<input type="text" class="form-control" name="razon_cliente" id="razon_cliente" placeholder="Razón social" disabled>
 					</div>
 					
 					<div class="form-group col-md-6">			
 						<label class="control-label"><font size="2">Teléfono</font></label>
-						<input type="text" class="form-control" name="tel_cliente" id="tel_cliente" disabled required>
+						<input type="text" class="form-control" name="tel_cliente" id="tel_cliente" placeholder="Teléfono" disabled required>
 					</div>
 
 					<div class="form-group col-md-12">			
@@ -199,7 +203,7 @@ if (empty($_REQUEST['id'])) {
 							<div class="input-group-prepend">
 								<!--<label class="col-form-label"><font size="2">Fecha de salida</font></label>-->
 								<span class="input-group-text"><font size="2">Fecha de ingreso</font></span>
-								<input class="form-control col-md-4 textright" type="text" name="fecha_ingreso" id="fecha_ingreso" value="<?php echo date("d/m/Y");?>" readonly>
+								<input class="form-control col-md-4 textright" type="text readonly" name="fecha_ingreso" id="fecha_ingreso" value="<?php echo date("d/m/Y");?>" readonly>
 
 								<!--<label class="col-form-label"><font size="2">Hora de salida</font></label>-->
 								<span class="input-group-text "><font size="2">Hora de ingreso</font></span>

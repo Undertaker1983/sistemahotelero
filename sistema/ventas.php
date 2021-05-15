@@ -27,7 +27,7 @@ include "includes/nav_admin.php";
 	<div class="app-title">
 		
 		<h1><i class="fa fa-th-list"></i> Ventas Registradas</h1>
-		<a href="nueva_venta.php" class="btn btn-primary btnNewVenta">Nueva Venta</a>				
+		<a href="nueva_venta.php" class="btn btn-primary btnNewVenta"><i class="fa fa-plus-circle"></i> Registrar Nueva Venta</a>				
 	</div>		
 
 	<div>

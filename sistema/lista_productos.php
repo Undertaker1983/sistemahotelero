@@ -24,7 +24,7 @@ include "includes/nav_admin.php";
 <main class="app-content">
 	<div class="app-title">
 		<h1><i class="fa fa-cube"></i> Productos Registrados</h1>
-		<a href="registro_producto.php" class="btn btn-primary">Nuevo producto</a>
+		<a href="registro_producto.php" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Registrar Nuevo producto</a>
 	</div>
 	
 	<div class="row">

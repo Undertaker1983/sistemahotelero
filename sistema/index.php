@@ -212,6 +212,7 @@ if ($result_dash > 0) {
                 <input class="form-control" type="text" name="txtIva" id="txtIva" placeholder="Impuesto al Valor Agregado (IVA)" value="<?= $iva; ?>" required>
               </div>
             </div>
+            
             <div class="alertFormEmpresa" style="display: none;"></div>
             <center>
               <button type="submit" class="btn btn-primary"></i> Guardar Datos</button>

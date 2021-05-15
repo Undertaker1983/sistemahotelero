@@ -1,57 +1,6 @@
 <?php 
 session_start();
-
 include "../conexion.php";
-
-if(!empty($_POST))
-{
-	$alert='';
-	if(empty($_POST['nombre']))
-	{
-		//$alert= MostrarAlerta("Error!","El campo Nombre es obligatorio","error");
-		$alert='<p class="msg_error">El campo Nombre es obligatorio.</p>';
-	}else{
-
-		$cedula 				= $_POST['cedula'];
-		$nombre 				= $_POST['nombre'];
-		$idtipo	    			= $_POST['idtipo'];
-		$telefono   			= $_POST['telefono'];
-		$direccion  			= $_POST['direccion'];
-		$correo  				= $_POST['correo'];
-		$razon_social 	 	    = $_POST['razon_social'];
-		$entidad_financiera	    = $_POST['entidad_financiera'];
-		$tipo_cuenta   			= $_POST['tipo_cuenta'];
-		$numero_cuenta  		= $_POST['numero_cuenta'];
-		$usuario_id    			= $_SESSION['idUser'];
-
-		$result = 0;
-
-		if (is_numeric($cedula)) {
-			$query = mysqli_query($conection,"SELECT * FROM personas WHERE cedula = '$cedula'");
-			$result = mysqli_fetch_array($query);
-		}
-
-		if($result > 0){
-			//$alert=MostrarAlerta("Error!","Número de identificación ya existe","error");
-			$alert='<p class="msg_error">Número de identificación ya existe.</p>';
-		}else{
-
-			$query_insert = mysqli_query($conection,"INSERT INTO personas(cedula,nombre,telefono,direccion,correo,razon_social,entidad_financiera,tipo_cuenta,numero_cuenta,idtipo,usuario_id) VALUES('$cedula','$nombre','$telefono','$direccion','$correo','$razon_social','$entidad_financiera','$tipo_cuenta','$numero_cuenta','$idtipo','$usuario_id')");
-			if($query_insert){
-				
-				$alert='<p class="msg_save">Registrado correctamente.</p>';
-			}else{
-				//$alert=MostrarAlerta("Error!","Error al registrar","error");
-				$alert='<p class="msg_error">Error al registrar.</p>';
-			}
-
-		}	
-
-	}
-			//mysqli_close($conection);
-
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -76,7 +25,7 @@ include "includes/nav_admin.php";
 		<div class="tarjeta">
 			
 			<form action="" method="post">
-				<div class="alert"><?php echo isset($alert) ? $alert : ''; ?></div>
+				
 				<div class="form-row">
 					<div class="form-group col-md-4">	
 						<label class="col-form-label">Tipo de Persona</label>
@@ -155,7 +104,7 @@ include "includes/nav_admin.php";
 				</div>	
 				<div class="tile-footer">
 					<center>
-						<button class="btn btn-primary" type="submit" id="register"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary btn_cancelar" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
+						<button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary btn_cancelar" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
 					</center>
 				</div>
 			</form>
@@ -177,67 +126,105 @@ include "includes/nav_admin.php";
 <!-- Page specific javascripts-->
 <script src="js/sweetalert2.all.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>	
-<script type="text/javascript">
-	$(function(){
-		$('#register').click(function(e){
-			var valid = this.form.checkValidity();
 
-			if(valid){
-				var idtipo					= $('#idtipo').val();
-				var cedula 					= $('#cedula').val();
-				var nombre 					= $('#nombre').val();
-				var telefono 				= $('#telefono').val();
-				var direccion 				= $('#direccion').val();
-				var correo 					= $('#correo').val();
-				var razon_social 			= $('#razon_social').val();
-				var entidad_financiera 		= $('#entidad_financiera').val();
-				var tipo_cuenta 			= $('#tipo_cuenta').val();
-				var numero_cuenta 			= $('#numero_cuenta').val();
-
-				e.preventDefault();	
-
-				$.ajax({
-					type: 'POST',
-					url: 'registro_persona.php',
-					data: {idtipo: idtipo, cedula: cedula, nombre: nombre,telefono: telefono,direccion: direccion,correo: correo, razon_social: razon_social, entidad_financiera: entidad_financiera, tipo_cuenta: tipo_cuenta, numero_cuenta: numero_cuenta},
-					success: function(data){
-						Swal.fire({
-							icon: 'success',
-							title: 'Guardando...',
-							text: 'Datos guardados correctamente',
-							showConfirmButton: true,
-							type: 'success'
-									/*'title': 'Successful',
-									'text': data,
-									'type': 'success'*/
-								});
-
-					},
-					error: function(data){
-						Swal.fire({
-							title: 'Error',
-							text: 'Error al guardar el registro.',
-							type: 'error'
-						});
-					}
-				});
-
-
-			}else{
-
-			}
-
-
-
-
-
-		});		
-
-
-	});	
-
-
-</script>
 
 </body>
 </html>
+
+<?php 
+
+include "../conexion.php";
+
+if(!empty($_POST))
+{
+	$alert='';
+	if(empty($_POST['nombre']))
+	{
+		?>
+		
+		
+		<script type="text/javascript">
+			Swal.fire({
+									icon : 'error',
+									title: 'Error',
+									text: 'El campo nombre es obligatorio',
+									type: 'error',
+								});
+		</script>
+		
+		<?php 
+	}else{
+
+		$cedula 				= $_POST['cedula'];
+		$nombre 				= $_POST['nombre'];
+		$idtipo	    			= $_POST['idtipo'];
+		$telefono   			= $_POST['telefono'];
+		$direccion  			= $_POST['direccion'];
+		$correo  				= $_POST['correo'];
+		$razon_social 	 	    = $_POST['razon_social'];
+		$entidad_financiera	    = $_POST['entidad_financiera'];
+		$tipo_cuenta   			= $_POST['tipo_cuenta'];
+		$numero_cuenta  		= $_POST['numero_cuenta'];
+		$usuario_id    			= $_SESSION['idUser'];
+
+		$result = 0;
+
+		if (is_numeric($cedula)) {
+			$query = mysqli_query($conection,"SELECT * FROM personas WHERE cedula = '$cedula'");
+			$result = mysqli_fetch_array($query);
+		}
+
+		if($result > 0){
+			?>
+		
+		<script type="text/javascript">
+			Swal.fire({
+									icon : 'warning',
+									title: 'Duplicado',
+									text: 'Número de identificación ya existe',
+									
+								});
+		</script>
+		
+		<?php 
+		}else{
+
+			$query_insert = mysqli_query($conection,"INSERT INTO personas(cedula,nombre,telefono,direccion,correo,razon_social,entidad_financiera,tipo_cuenta,numero_cuenta,idtipo,usuario_id) VALUES('$cedula','$nombre','$telefono','$direccion','$correo','$razon_social','$entidad_financiera','$tipo_cuenta','$numero_cuenta','$idtipo','$usuario_id')");
+			if($query_insert){
+				
+				?>
+			
+			<script type="text/javascript">
+				Swal.fire({
+									icon: 'success',
+									title: 'Guardando...',
+									text: 'Datos registrados correctamente',
+									showConfirmButton: true,
+									
+								});
+			</script>
+			
+			<?php 
+			}else{
+				?>
+		
+		<script type="text/javascript">
+			Swal.fire({
+									icon : 'error',
+									title: 'Error',
+									text: 'Error al registrar producto',
+									type: 'error',
+								});
+		</script>
+		
+		<?php 
+			}
+
+		}	
+
+	}
+			//mysqli_close($conection);
+
+}
+
+?>

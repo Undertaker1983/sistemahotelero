@@ -26,7 +26,7 @@ include "includes/nav_admin.php";
 	<div class="app-title">
 		
 		<h1><i class="fa fa-th-list"></i> Pisos</h1>
-		<a href="#" class="btn btn-primary add_piso">Nuevo Piso</a>
+		<a href="#" class="btn btn-primary add_piso"><i class="fa fa-plus-circle"></i> Registrar Nuevo Piso</a>
 		<!--<a href="registro_habitacion.php" class="btn btn-primary btnNewOrden">Registrar Nuevo Piso</a>-->
 		
 	</div>

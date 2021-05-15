@@ -6,55 +6,7 @@ if ($_SESSION['rol']!= 1 and $_SESSION['rol']!= 2) {
 
 include "../conexion.php";
 
-if(!empty($_POST))
-{
-	$alert='';
-	if(empty($_POST['proveedor']) || empty($_POST['producto']) || empty($_POST['precio']) || $_POST['precio']<=0 )
-	{
-		$alert='<p class="msg_error">Los campos son obligatorios.</p>';
-	}else{
-
-		$proveedor 				= $_POST['proveedor'];
-		$idtipo 				= $_POST['idtipo'];
-		$producto 				= $_POST['producto'];
-		$precio   				= $_POST['precio'];
-		$cantidad  				= $_POST['cantidad'];
-		$usuario_id    			= $_SESSION['idUser'];
-
-		$foto           = $_FILES['foto'];
-		$nombre_foto	= $foto['name'];
-		$type			= $foto['type'];
-		$url_temp		= $foto['tmp_name'];
-		$imgProducto	='img_producto.png';
-
-		if ($nombre_foto !='') {
-			$destino       = 'img/uploads/';
-			$img_nombre	   = 'img_'.md5(date('d-m-Y H:m:s'));
-			$imgProducto   = $img_nombre.'.jpg';
-			$src           = $destino.$imgProducto;
-		}
-
-
-		$query_insert = mysqli_query($conection,"INSERT INTO producto(proveedor,idtipo,descripcion,precio,existencia,usuario_id,foto) VALUES('$proveedor','$idtipo','$producto','$precio','$cantidad','$usuario_id','$imgProducto')");
-		if($query_insert){
-			if ($nombre_foto!='' ) {
-				move_uploaded_file($url_temp,$src);
-			}
-
-			$alert='<p class="msg_save">Producto registrado correctamente.</p>';
-		}else{
-			$alert='<p class="msg_error">Error al registrar el producto.</p>';
-		}
-
-	}	
-
-}
-
-
-
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -163,7 +115,7 @@ if(!empty($_POST))
 
 						<div class="tile-footer">
 							<center>
-								<button class="btn btn-primary" type="submit" id="register"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary btn_cancelar" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
+								<button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary btn_cancelar" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
 							</center>
 						</div>
 					</div>
@@ -183,60 +135,90 @@ if(!empty($_POST))
 		<!-- Page specific javascripts-->
 		<script src="js/sweetalert2.all.min.js"></script>
 		<script src="//cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>	
+		<
+	</body>
+	</html>
+
+<?php 
+
+include "../conexion.php";
+
+if(!empty($_POST))
+{
+	$alert='';
+	if(empty($_POST['proveedor']) || empty($_POST['producto']) || empty($_POST['precio']) || $_POST['precio']<=0 )
+	{
+		?>
+		
+		
 		<script type="text/javascript">
-			$(function(){
-				$('#register').click(function(e){
-					var valid = this.form.checkValidity();
+			Swal.fire({
+									icon : 'error',
+									title: 'Error',
+									text: 'Los campos proveedor y precio son obligatorios',
+									type: 'error',
+								});
+		</script>
+		
+		<?php 
+	}else{
 
-					if(valid){
-						var idtipo        			= $('#idtipo').val();
-						var proveedor        		= $('#proveedor').val();
-						var producto				= $('#producto').val();
-						var imgProducto 			= $('#imgProducto').val();
-						var precio 					= $('#precio').val();
-						var cantidad 				= $('#cantidad').val();
-						var usuario_id				= $('#usuario_id').val();
+		$proveedor 				= $_POST['proveedor'];
+		$idtipo 				= $_POST['idtipo'];
+		$producto 				= $_POST['producto'];
+		$precio   				= $_POST['precio'];
+		$cantidad  				= $_POST['cantidad'];
+		$usuario_id    			= $_SESSION['idUser'];
 
-						e.preventDefault();	
+		$foto           = $_FILES['foto'];
+		$nombre_foto	= $foto['name'];
+		$type			= $foto['type'];
+		$url_temp		= $foto['tmp_name'];
+		$imgProducto	='img_producto.png';
 
-						$.ajax({
-							type: 'POST',
-							url: 'registro_producto.php',
-							data: {idtipo: idtipo, proveedor: proveedor,producto: producto,imgProducto: imgProducto,precio: precio, cantidad: cantidad, usuario_id: usuario_id},
-							success: function(data){
-								Swal.fire({
+		if ($nombre_foto !='') {
+			$destino       = 'img/uploads/';
+			$img_nombre	   = 'img_'.md5(date('d-m-Y H:m:s'));
+			$imgProducto   = $img_nombre.'.jpg';
+			$src           = $destino.$imgProducto;
+		}
+
+
+		$query_insert = mysqli_query($conection,"INSERT INTO producto(proveedor,idtipo,descripcion,precio,existencia,usuario_id,foto) VALUES('$proveedor','$idtipo','$producto','$precio','$cantidad','$usuario_id','$imgProducto')");
+		if($query_insert){
+			if ($nombre_foto!='' ) {
+				move_uploaded_file($url_temp,$src);
+			}
+			?>
+			
+			<script type="text/javascript">
+				Swal.fire({
 									icon: 'success',
 									title: 'Guardando...',
 									text: 'Datos registrados correctamente',
 									showConfirmButton: true,
-									/*'title': 'Successful',
-									'text': data,
-									'type': 'success'*/
+									
 								});
-
-							},
-							error: function(data){
-								Swal.fire({
+			</script>
+			
+			<?php 
+		}else{
+			?>
+		
+		<script type="text/javascript">
+			Swal.fire({
+									icon : 'error',
 									title: 'Error',
-									text: 'Error al guardar el registro.',
-									type: 'error'
+									text: 'Error al registrar producto',
+									type: 'error',
 								});
-							}
-						});
-
-
-					}else{
-
-					}
-
-
-
-
-
-				});		
-
-
-			});	
 		</script>
-	</body>
-	</html>
+		
+		<?php 
+		}
+
+	}	
+
+}
+
+?>

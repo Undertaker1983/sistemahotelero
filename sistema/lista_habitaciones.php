@@ -23,7 +23,7 @@ include "includes/nav_admin.php";
 		
 		<h1><i class="fa fa-th-list"></i> Habitaciones Registradas</h1>
 		<!--<a href="#" class="btn btn-primary add_habitacion">Nueva Habitación</a>-->
-		<a href="registro_habitacion.php" class="btn btn-primary btnNewOrden">Registrar Nueva Habitación</a>
+		<a href="registro_habitacion.php" class="btn btn-primary btnNewOrden"><i class="fa fa-plus-circle"></i> Registrar Nueva Habitación</a>
 		
 	</div>
 	<div class="row">

@@ -481,7 +481,7 @@ $('.add_piso').click(function(e) {
                 '<form action="" method="post" name="form_add_piso" id="form_add_piso" onsubmit="event.preventDefault(); sendDataPiso();">'+
                 '<div class="modal-header headerRegister">'+
                 '<h3 class="modal-title">Registrar Piso</h3>'+
-                '<button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>'+
+                '<button class="close" onclick="coloseModal();" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>'+
                 '</button>'+
                 '<div class="alert alertAddProduct"></div>'+
                 '</div>'+
@@ -537,7 +537,7 @@ $('.add_categoria').click(function(e) {
                 '<form action="" method="post" name="form_add_categoria" id="form_add_categoria" onsubmit="event.preventDefault(); sendDataCategoria();">'+
                 '<div class="modal-header headerRegister">'+
                 '<h3 class="modal-title">Registrar Categoria</h3>'+
-                '<button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>'+
+                '<button class="close" onclick="coloseModal();" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>'+
                 '</button>'+
                 /*'<div class="alert alertAddProduct"></div>'+*/
                 '</div>'+

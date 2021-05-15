@@ -27,7 +27,7 @@ include "includes/nav_admin.php";
 	<div class="app-title">
 		
 		<h1><i class="fa fa-th-list"></i> Pagos Recibidos</h1>
-		<a href="#" class="btn btn-primary btnNewVenta">Nuevo Ingreso</a>				
+		<a href="#" class="btn btn-primary btnNewVenta"><i class="fa fa-plus-circle"></i> Registrar Nuevo Ingreso</a>				
 	</div>		
 
 	<div class="row">

@@ -25,7 +25,7 @@ include "includes/nav_admin.php";
 <main class="app-content">
 	<div class="app-title">
 		<h1><i class="fa fa-truck"></i>  Proveedores</h1>
-		<a href="registro_persona.php" class="btn btn-primary btn_new">Nuevo Proveedor</a>
+		<a href="registro_persona.php" class="btn btn-primary btn_new"><i class="fa fa-plus-circle"></i> Registrar Nuevo Proveedor</a>
 	</div>
 	
 	<div class="row">

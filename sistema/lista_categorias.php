@@ -26,7 +26,7 @@ include "includes/nav_admin.php";
 	<div class="app-title">
 		
 		<h1><i class="fa fa-th-list"></i> Categorias Registradas</h1>
-		<a href="#" class="btn btn-primary add_categoria">Nueva Categoria</a>				
+		<a href="#" class="btn btn-primary add_categoria"><i class="fa fa-plus-circle"></i> Registrar Nueva Categoria</a>				
 	</div>
 	<div class="row">
 		<div class="col-md-12">

@@ -25,7 +25,7 @@ include "includes/nav_admin.php";
 <main class="app-content">
 	<div class="app-title">
 		<h1><i class="fa fa-users"></i> Clientes</h1>
-		<a href="registro_persona.php" class="btn btn-primary">Nuevo Cliente</a>
+		<a href="registro_persona.php" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Registrar Nuevo Cliente</a>
 	</div>
 	
 	<div class="row">

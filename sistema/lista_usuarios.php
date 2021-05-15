@@ -24,7 +24,7 @@ include "includes/nav_admin.php";
 <main class="app-content">
 	<div class="app-title">		
 		<h1> <i class="fa fa-users"></i> Usuarios Registrados</h1>
-		<a href="registro_usuario.php" class="btn btn-primary"><i class="fa fa-user-plus"></i> Crear usuario</a>
+		<a href="registro_usuario.php" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Registrar Nuevo Usuario</a>
 	</div>	
 	<div class="row">
 		<div class="col-md-12">
