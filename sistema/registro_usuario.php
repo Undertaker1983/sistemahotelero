@@ -29,7 +29,7 @@ include "includes/nav_admin.php";
 
 		<div class="tarjeta col-md-6">	
 			<form action="" method="post">
-				<!--<div class="alert"><?php echo isset($alert) ? $alert : ''; ?></div>-->	
+				
 				
 				<div class="form-group row">
 					<label class="control-label col-md-3" for="nombre">Nombre</label>
@@ -122,8 +122,7 @@ if(!empty($_POST))
 	{
 		?>
 		
-		
-		<script type="text/javascript">
+			<script type="text/javascript">
 			Swal.fire({
 									icon : 'error',
 									title: 'Error',
@@ -200,7 +199,6 @@ if(!empty($_POST))
 	}
 
 }
-
 
 
 ?>

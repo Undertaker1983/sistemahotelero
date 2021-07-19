@@ -388,7 +388,7 @@ ul.tabs li a .tab-text{
 }	
 
 /*condicion de habitaciones*/
-.disponible,.limpieza,.ocupado,.mantenimiento{
+.disponible,.limpieza,.ocupado,.mantenimiento,.terminado {
 	color: #FFF;
 	background: #60a756;
 	text-align: center;
@@ -406,6 +406,10 @@ ul.tabs li a .tab-text{
 
 .mantenimiento{
 	background: #F19805;
+}
+
+.terminado{
+	background: #8C8B88;
 }
 
 output {

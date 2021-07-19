@@ -33,9 +33,9 @@ include "includes/nav_admin.php";
 							<?php
 							$ocupado = "Ocupado";
 							
-							$query = mysqli_query($conection,"SELECT a.idalojamiento,a.idhabitacion,a.idpersona,a.cant_noches,a.cant_personas,a.estado_pago,a.medio_pago,a.estado,h.nombre_habitacion,h.condicion	FROM  alojamiento a INNER JOIN
+							$query = mysqli_query($conection,"SELECT a.idalojamiento,a.idhabitacion,a.idpersona,a.cant_noches,a.cant_personas,a.e_alojamiento,a.estado_pago,a.medio_pago,a.estado,h.nombre_habitacion,h.condicion	FROM  alojamiento a INNER JOIN
 								habitaciones h ON a.idhabitacion = h.idhabitacion 
-								WHERE a.estado_pago = 'Falta Cancelar' ");
+								WHERE a.e_alojamiento = 'hospedado' AND h.condicion = 'Ocupado'");
 
 
 							mysqli_close($conection);
@@ -49,12 +49,12 @@ include "includes/nav_admin.php";
 										$icondicion = 'icon fa fa-ban fa-3x';
 										
 									}
-									/*if ($data["estado_pago"] == 'Cancelado') {
+									if ($data["estado_pago"] == 'Cancelado') {
 										$condicion = 'primary';
 										$icondicion = 'icon fa fa-money fa-3x';
 										//$act_condicion = 'fin_mantenimiento';
 										//$href = '#';
-									}*/
+									}
 									?>
 									<div class="col-md-3">
 										<a class="simple" href="proceso_checkout.php?id=<?php echo $data["idalojamiento"] ?>">

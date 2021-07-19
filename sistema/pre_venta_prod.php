@@ -32,10 +32,10 @@ include "includes/nav_admin.php";
 					
 							<?php 
 							
-							$query = mysqli_query($conection,"SELECT a.idalojamiento,a.idhabitacion,a.idpersona,a.fecha_ingreso,a.hora_ingreso,a.fecha_salida,a.hora_salida,a.precio,a.cant_noches,a.cant_personas,a.estado_pago,a.medio_pago,h.nombre_habitacion,h.condicion,p.nombre	FROM  alojamiento a INNER JOIN
+							$query = mysqli_query($conection,"SELECT a.idalojamiento,a.idhabitacion,a.idpersona,a.fecha_ingreso,a.hora_ingreso,a.fecha_salida,a.hora_salida,a.precio,a.cant_noches,a.cant_personas,a.estado_pago,a.medio_pago,a.e_alojamiento,h.nombre_habitacion,h.condicion,p.nombre	FROM  alojamiento a INNER JOIN
 								habitaciones h ON a.idhabitacion = h.idhabitacion INNER JOIN
 								personas p ON a.idpersona = p.idpersona 
-								WHERE h.condicion = 'Ocupado' ");
+								WHERE a.e_alojamiento = 'hospedado' AND h.condicion = 'Ocupado' ");
 
 							mysqli_close($conection);
 
@@ -43,7 +43,7 @@ include "includes/nav_admin.php";
 							if($result > 0){
 
 								while ($data = mysqli_fetch_array($query)) {
-									if ($data["condicion"] == 'Ocupado') {
+									if ($data["e_alojamiento"] == 'hospedado') {
 										$condicion = 'danger';
 										
 									}

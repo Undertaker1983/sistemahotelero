@@ -24,9 +24,10 @@ if(!empty($_POST))
 		$precio   				= $_POST['precio'];
 		$anticipo   			= $_POST['anticipo'];
 		$estado_habitacion		= "Ocupado";
+		$e_alojamiento 			= "hospedado";
 		//echo "Total =".$ptotal.;
 		//$total_pagar 	= $precio * $cant_noches;
-		$query_insert = mysqli_query($conection,"INSERT INTO alojamiento(idhabitacion,idpersona,fecha_ingreso,hora_ingreso,fecha_salida,precio,anticipo,cant_personas,cant_noches,estado_pago,hora_salida,medio_pago) VALUES('$idhabitacion','$idpersona','$fecha_ingreso','$hora_ingreso','$fecha_salida','$precio','$anticipo','$cant_personas','$cant_noches','$estado_pago', '$hora_salida','$medio_pago')");
+		$query_insert = mysqli_query($conection,"INSERT INTO alojamiento(idhabitacion,idpersona,fecha_ingreso,hora_ingreso,fecha_salida,precio,anticipo,cant_personas,cant_noches,estado_pago,hora_salida,medio_pago,e_alojamiento) VALUES('$idhabitacion','$idpersona','$fecha_ingreso','$hora_ingreso','$fecha_salida','$precio','$anticipo','$cant_personas','$cant_noches','$estado_pago', '$hora_salida','$medio_pago','$e_alojamiento')");
 
 		$query_update = mysqli_query($conection,"UPDATE habitaciones SET condicion = '$estado_habitacion' WHERE idhabitacion = $idhabitacion");
 
@@ -50,7 +51,7 @@ if (empty($_REQUEST['id'])) {
 	$id_habitacion = $_REQUEST['id'];
 	
 
-	$query_habitacion = mysqli_query($conection,"SELECT h.idhabitacion,h.nombre_habitacion,h.detalles,h.condicion,c.idcategoria,c.nombre_categoria	FROM  habitaciones h INNER JOIN
+	$query_habitacion = mysqli_query($conection,"SELECT h.idhabitacion,h.nombre_habitacion,h.detalles,h.condicion,h.precio,c.idcategoria,c.nombre_categoria	FROM  habitaciones h INNER JOIN
 		categorias c ON h.idcategoria = c.idcategoria
 		WHERE h.idhabitacion = $id_habitacion AND h.estado = 1");
 	$result_habitacion = mysqli_num_rows($query_habitacion);
@@ -97,14 +98,21 @@ if (empty($_REQUEST['id'])) {
 						</thead>			
 						<tr>
 							<td>
-								<label for="nombre"><font color="#0982C3"><b>Nombre</b></font></label>
+								<label for="nombre"><font color="#0982C3"><b>N° de habitación:</b></font></label>
 							</td>
 							<td>
 								<?php echo $data_habitacion['nombre_habitacion']; ?>
 								
 							</td>
 							<td>
-								<label for="categoria"><font color="#0982C3"><b>Categoria</b></font></label>
+								<label for="nombre"><font color="#0982C3"><b>Precio:</b></font></label>
+							</td>
+							<td>
+								<?php echo $data_habitacion['precio']; ?>
+								
+							</td>
+							<td>
+								<label for="categoria"><font color="#0982C3"><b>Categoria:</b></font></label>
 							</td>
 							<td>
 								<?php echo $data_habitacion['nombre_categoria'] ?>
@@ -119,7 +127,7 @@ if (empty($_REQUEST['id'])) {
 							 ?>
 
 							<td>
-								<label for="detalles"><font color="#0982C3"><b>Detalles</b></font></label>
+								<label for="detalles"><font color="#0982C3"><b>Detalles:</b></font></label>
 							</td>
 
 							<td>
@@ -127,12 +135,14 @@ if (empty($_REQUEST['id'])) {
 
 							</td>
 							<td>
-								<label for="estado"><font color="#0982C3"><b>Estado</b></font></label>
+								<label for="estado"><font color="#0982C3"><b>Estado:</b></font></label>
 							</td>
 							<td>
 								<?php echo $condicion ?>
 
 							</td>
+							<td></td>
+							<td></td>
 						</tr>
 					</table>	
 				</div>
@@ -213,7 +223,7 @@ if (empty($_REQUEST['id'])) {
 						<div class="form-row">
 							<div class="form-group col-md-4">			
 								<label class="control-label"><font size="2">Precio $.</font></label>
-								<input class="form-control" type="number" name="precio_uni" id="precio_uni" required="" onclick="multiplicacion()">
+								<input class="form-control" type="number" name="precio_uni" id="precio_uni" value="<?php echo $data_habitacion['precio']; ?>" required="" onclick="multiplicacion()">
 							</div>
 
 							<div class="form-group col-md-2">			

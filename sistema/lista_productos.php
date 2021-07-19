@@ -86,7 +86,7 @@ include "includes/nav_admin.php";
 										$foto = 'img/'.$data['foto'];	
 									}
 
-							?>
+									?>
 									<tr class="row<?php echo $data["codproducto"]; ?>">
 										<td><?php echo $data["codproducto"]; ?></td>
 										<td><?php echo $data["producto_servicio"]; ?></td>
@@ -100,14 +100,14 @@ include "includes/nav_admin.php";
 
 											<td>
 												<div class="btn-group">
-												<a class="btn btn-primary add_product" title="Agregar" product="<?php echo $data["codproducto"]; ?>" href="#"><i class="fa fa-plus"></i></a>
+													<a class="btn btn-primary add_product" title="Agregar" product="<?php echo $data["codproducto"]; ?>" href="#"><i class="fa fa-plus"></i></a>
 
-												<a class="btn btn-info btn_edit" title="Editar" href="editar_producto.php?id=<?php echo $data["codproducto"]; ?>"><i class="fa fa-edit"></i></a>
+													<a class="btn btn-info btn_edit" title="Editar" href="editar_producto.php?id=<?php echo $data["codproducto"]; ?>"><i class="fa fa-edit"></i></a>
 
 
-												<a class="btn btn-danger del_product" title="Eliminar" href="#" producto_id="<?php echo $data["codproducto"]; ?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
-											<?php } ?>
-												</div>
+													<a class="btn btn-danger del_product" title="Eliminar" href="#" producto_id="<?php echo $data["codproducto"]; ?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
+												<?php } ?>
+											</div>
 										</td>
 
 									</tr>	
@@ -133,38 +133,73 @@ include "includes/nav_admin.php";
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/main.js"></script>
-<!-- The javascript plugin to display page loading on top-->
-<script src="js/plugins/pace.min.js"></script>
-<!-- Page specific javascripts-->
-<script src="js/sweetalert2.all.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
+
 <!-- Data table plugin-->
 <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
-<script type="text/javascript">$('#tablaproductos').DataTable({
-  "language": {
-    
-        "emptyTable": "No hay información",
-        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-        "infoPostFix": "",
-        "thousands": ",",
-        "lengthMenu": "Mostrar _MENU_ Entradas",
-        "loadingRecords": "Cargando...",
-        "processing": "Procesando...",
-        "search": "Buscar:",
-        "zeroRecords": "Sin resultados encontrados",
-        "paginate": {
-            "first": "Primero",
-            "last": "Ultimo",
-            "next": "Siguiente",
-            "previous": "Anterior"
-        }
-  }
+<!-- para usar botones en datatables JS -->  
+
+<script src="js/plugins/JSZip-2.5.0/jszip.min.js"></script>    
+<script src="js/plugins/pdfmake-0.1.36/pdfmake.min.js"></script>    
+<script src="js/plugins/pdfmake-0.1.36/vfs_fonts.js"></script>
+<script src="js/plugins/Buttons-1.7.0/js/dataTables.buttons.min.js"></script>  
+<script src="js/plugins/Buttons-1.7.0/js/buttons.html5.min.js"></script>
+<script src="js/plugins/Buttons-1.7.0/js/buttons.print.min.js"></script>
+<!-- The javascript plugin to display page loading on top-->
+<script src="js/plugins/pace.min.js"></script>
+<script src="js/sweetalert2.all.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
+
+<script type="text/javascript">
+	$('#tablaproductos').DataTable({
+		"language": {
+			
+			"emptyTable": "No hay información",
+			"info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+			"infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+			"infoFiltered": "(Filtrado de _MAX_ total entradas)",
+			"infoPostFix": "",
+			"thousands": ",",
+			"lengthMenu": "Mostrar _MENU_ Entradas",
+			"loadingRecords": "Cargando...",
+			"processing": "Procesando...",
+			"search": "Buscar:",
+			"zeroRecords": "Sin resultados encontrados",
+			"paginate": {
+				"first": "Primero",
+				"last": "Ultimo",
+				"next": "Siguiente",
+				"previous": "Anterior"
+			}
+		},
+  //para usar los botones   
+  responsive: "true",
+  dom: "Bfrtilp",
+
+  buttons:[ 
+  {
+  	extend:    'excelHtml5',
+  	text:      '<i class="fa fa-file-excel-o"></i> ',
+  	titleAttr: 'Exportar a Excel',
+  	className: 'btn btn-success'
+  },
+  {
+  	extend:    'pdfHtml5',
+  	text:      '<i class="fa fa-file-pdf-o"></i> ',
+  	titleAttr: 'Exportar a PDF',
+  	className: 'btn btn-danger'
+  },
+  {
+  	extend:    'print',
+  	text:      '<i class="fa fa-print"></i> ',
+  	titleAttr: 'Imprimir',
+  	className: 'btn btn-info'
+  },
+  ]	     
 });
 </script>
-<script src="js/plugins/pace.min.js"></script>
+
+
 <!-- Page specific javascripts-->
 <div class="modal">
 	<div class="modal-dialog" role="document">

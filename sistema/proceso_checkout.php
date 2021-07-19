@@ -14,15 +14,16 @@ if(!empty($_POST))
 		$idalojamiento 			= $_POST['idalojamiento'];
 		$usuario_id    			= $_SESSION['idUser'];
 		$fecha_emision			= $_POST['fecha_emision'];
-		
-		//$numero_comprobante   	= $_POST['numero_comprobante'];
+		$idhabitacion			= $_POST['idhabitacion'];
+		$numero_comprobante   	= $_POST['numero_comprobante'];
+		$tipo_comprobante   	= $_POST['tipo_comprobante'];
 		$total_pago   			= $_POST['total_pago'];
 				
 		//echo "Total =".$ptotal.;
 		$query_insert = mysqli_query($conection,"INSERT INTO pago(idalojamiento,idusuario,fecha_emision,total_pago) VALUES('$idalojamiento','$usuario_id','$fecha_emision','$total_pago')");
 
-		$query_updalojamiento = mysqli_query($conection,"UPDATE alojamiento SET estado_pago = 'Cancelado' WHERE idalojamiento = $idalojamiento");
-		$query_update = mysqli_query($conection,"UPDATE habitaciones SET condicion = 'Limpieza' WHERE idhabitacion = $idhabitacion");
+		$query_updalojamiento = mysqli_query($conection,"UPDATE alojamiento SET estado_pago = 'Cancelado', e_alojamiento = 'terminado' WHERE idalojamiento = $idalojamiento");
+		$query_updhabitaciones = mysqli_query($conection,"UPDATE habitaciones SET condicion = 'Limpieza' WHERE idhabitacion = $idhabitacion");
 
 		if($query_insert){ 
 			header("location: proceso_checkout.php");
@@ -30,7 +31,7 @@ if(!empty($_POST))
 			//$alert='<p class="msg_save">Orden registrado correctamente.</p>';
 		}else{
 			/*$alert='<p class="msg_error">Error al registrar habitación.</p>';*/
-			echo 'Error al registrar.';
+			echo 'Error al registrar';
 		}
 	}
 }		
@@ -44,11 +45,9 @@ if (empty($_REQUEST['id'])) {
 	$id_alojamiento = $_REQUEST['id'];
 	
 
-	$query_alojamiento = mysqli_query($conection,"SELECT a.idalojamiento,a.idhabitacion,a.idpersona,a.fecha_ingreso,a.hora_ingreso,a.fecha_salida,a.hora_salida,a.precio,a.anticipo,a.cant_noches,a.cant_personas,a.estado_pago,a.medio_pago,a.estado,h.idhabitacion,h.nombre_habitacion,h.condicion,p.nombre,p.cedula,p.telefono,c.precio_consumo,c.cantidad,pr.descripcion,pr.precio as punitario		FROM  alojamiento a INNER JOIN
+	$query_alojamiento = mysqli_query($conection,"SELECT a.idalojamiento,a.idhabitacion,a.idpersona,a.fecha_ingreso,a.hora_ingreso,a.fecha_salida,a.hora_salida,a.precio,a.anticipo,a.cant_noches,a.cant_personas,a.estado_pago,a.medio_pago,a.estado,h.idhabitacion,h.nombre_habitacion,h.condicion,p.nombre,p.cedula,p.telefono FROM  alojamiento a INNER JOIN
 		habitaciones h ON a.idhabitacion = h.idhabitacion INNER JOIN
-		personas p ON a.idpersona = p.idpersona INNER JOIN
-		consumo c ON c.idalojamiento = a.idalojamiento  INNER JOIN
-		producto pr ON c.idproducto = pr.codproducto
+		personas p ON a.idpersona = p.idpersona 
 		WHERE a.idalojamiento = $id_alojamiento AND a.estado = 1");
 
 	
@@ -206,6 +205,7 @@ if (empty($_REQUEST['id'])) {
 							<form action="" method="post">
 									<input type="hidden" value="<?php echo date("Y/m/d");?>" name="fecha_emision" readonly>
 									<input type="hidden" id="idalojamiento" name="idalojamiento" value="<?php echo $data_alojamiento['idalojamiento']; ?>">
+									<input type="hidden" id="idhabitacion" name="idhabitacion" value="<?php echo $data_alojamiento['idhabitacion']; ?>">
 							<table class="table table-hover" id="tablacheck">
 								<thead class="thead-light">
 								<tr>
@@ -232,9 +232,9 @@ if (empty($_REQUEST['id'])) {
 									$precio 			= round($data_alojamiento['precio'],2);
 									$anticipo   		= round($data_alojamiento['anticipo'],2);
 									$total_hospedaje	= number_format($precio - $anticipo, 2);
-									$consumo    		= round($data_alojamiento['precio_consumo'],2);
-									$total      		= number_format($total_hospedaje + $consumo, 2);
-									$total_factura		= number_format($precio + $consumo, 2);
+									//$consumo    		= round($data_alojamiento['precio_consumo'],2);
+									//$total      		= number_format($total_hospedaje + $consumo, 2);
+									//$total_factura		= number_format($precio + $consumo, 2);
 								?>
 
 								<tr>
@@ -273,22 +273,32 @@ if (empty($_REQUEST['id'])) {
 																
 								</tr style="border-right-width:3px;border-right-style:solid";>
 								<thead>
+								<?php 
 								
+								$resultado = mysqli_num_rows($query_alojamiento);
+								
+								if($resultado > 0){
+								 while ($data = mysqli_fetch_array($query_alojamiento)) {
+																			
+								 ?>
 								<tr>
 									<td>
-										<?php echo $data_alojamiento['descripcion']; ?>																			
+										<?php echo $data['descripcion']; ?>																			
 									</td>
 									<td>
-										<?php echo $data_alojamiento['punitario']; ?>
+										<?php echo $data['punitario']; ?>
 									</td>
 									<td>
-										<?php echo $data_alojamiento['cantidad']; ?>
+										<?php echo $data['cantidad']; ?>
 									</td>
 									<td>
-										<?php echo $data_alojamiento['precio_consumo']; ?>
+										<?php echo $data['precio_consumo']; ?>
 									</td>								
 								</tr>
-
+								<?php 
+								}
+								}
+								 ?>
 								<tr>
 									<td></td>
 									<td></td>
@@ -296,8 +306,8 @@ if (empty($_REQUEST['id'])) {
 									
 									<td colspan="5" class="col-md-4" style="border-right-width:3px;border-right-style:solid";><h5>Total a Pagar $.</h5></td>
 									<td>
-										<input class="form-control col-md-3" type="text" name="total" id="total" value="<?php echo $total; ?>" readonly>
-										<input type="hidden" name="total_pago" id="total_pago" value="<?php echo $total_factura; ?>">
+										<input class="form-control col-md-3" type="text" name="total" id="total" value="<?php echo $total_hospedaje; ?>" readonly>
+										<input type="hidden" name="total_pago" id="total_pago" value="<?php echo $total_hospedaje; ?>">
 
 									</td>	
 								</tr>
@@ -333,11 +343,6 @@ if (empty($_REQUEST['id'])) {
 	<script src="js/popper.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/main.js"></script>
-	<!-- Data table plugin
-<script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
-<script type="text/javascript">$('#tablacheck').DataTable();</script>-->
-	<!-- The javascript plugin to display page loading on top-->
 	<script src="js/plugins/pace.min.js"></script>
 	<!-- Page specific javascripts-->
 	<script src="js/sweetalert2.all.min.js"></script>
@@ -365,10 +370,10 @@ if (empty($_REQUEST['id'])) {
 
 					if(valid){
 						var idalojamiento            = $('#idalojamiento').val();
-						var fecha_emision			= $('#fecha_emision').val();
-						
-						//var numero_comprobante 		= $('#numero_comprobante').val();
-						var total_pago 				= $('#total_pago').val();
+						var fecha_emision			 = $('#fecha_emision').val();
+						var idhabitacion			 = $('#idhabitacion').val();
+						var numero_comprobante 		 = $('#numero_comprobante').val();
+						var total_pago 				 = $('#total_pago').val();
 
 
 
@@ -377,7 +382,7 @@ if (empty($_REQUEST['id'])) {
 						$.ajax({
 							type: 'POST',
 							url: 'proceso_checkout.php',
-							data: {idalojamiento:idalojamiento,fecha_emision: fecha_emision,total_pago:total_pago},
+							data: {idalojamiento:idalojamiento,fecha_emision: fecha_emision,idhabitacion:idhabitacion,total_pago:total_pago,numero_comprobante:numero_comprobante},
 								success: function(data){
 									Swal.fire({
 										icon: 'success',

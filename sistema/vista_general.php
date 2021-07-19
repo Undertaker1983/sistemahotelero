@@ -31,7 +31,7 @@ include "includes/nav_admin.php";
 					
 							<?php 
 							
-							$query = mysqli_query($conection,"SELECT h.idhabitacion,h.nombre_habitacion,h.detalles,h.condicion,c.idcategoria,c.nombre_categoria	FROM  habitaciones h INNER JOIN
+							$query = mysqli_query($conection,"SELECT h.idhabitacion,h.nombre_habitacion,h.detalles,h.condicion,h.estado,c.idcategoria,c.nombre_categoria	FROM  habitaciones h INNER JOIN
 								categorias c ON h.idcategoria = c.idcategoria 
 								WHERE h.estado = 1 ORDER BY h.nombre_habitacion ASC");
 //personas p ON h.idpersona = p.idpersona INNER JOIN
@@ -74,7 +74,7 @@ include "includes/nav_admin.php";
 										if ($data["condicion"] == 'Ocupado') {
 										  ?>
 										
-										  <a id="btn_hab" class="simple inactive; ?>" habitacion_id="<?php echo $data["idhabitacion"]; ?>" href="lista_checkout.php">
+										  <a id="btn_hab" class="simple inactive; ?>"  href="#">
 										<div class="widget-small <?php echo $condicion;?>"><i class="<?php echo $icondicion; ?>"></i>
 										
 											<div class="info">

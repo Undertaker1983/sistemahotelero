@@ -725,7 +725,8 @@ if ($_POST['action'] == 'addProductoDetalle')
 
       }
       while ($data = mysqli_fetch_assoc($query_detalle_temp)) {
-        $precioTotal = round($data['cantidad'] * $data['precio_venta'],2);
+        //$precioTotal = round($data['cantidad'] * $data['precio_venta'],2);
+        $precioTotal = number_format(($data['cantidad'] * $data['precio_venta']),2);
         $sub_total = round($sub_total + $precioTotal, 2);
         $total = round($total + $precioTotal, 2);
         $detalleTabla .= '<tr>
@@ -744,7 +745,8 @@ if ($_POST['action'] == 'addProductoDetalle')
       $sniva = round(1 + ($iva / 100),2);
       $impuesto = round($sub_total / $sniva, 2);
       $tl_sniva = round($sub_total - $impuesto, 2);
-      $total = round($tl_sniva + $impuesto, 2);
+      $total =  number_format(($tl_sniva + $impuesto), 2);
+      //$total = round($tl_sniva + $impuesto, 2);
 
       $detalleTotales = '<tr>
       <td colspan="5" class="textright1">SUBTOTAL.</td>
@@ -808,7 +810,8 @@ if ($_POST['action'] == 'searchForDetalle')
 
       }
       while ($data = mysqli_fetch_assoc($query)) {
-        $precioTotal = round($data['cantidad'] * $data['precio_venta'],2);
+        //$precioTotal = round($data['cantidad'] * $data['precio_venta'],2);
+        $precioTotal = number_format(($data['cantidad'] * $data['precio_venta']),2);
         $sub_total = round($sub_total + $precioTotal, 2);
         $total = round($total + $precioTotal, 2);
         $detalleTabla .= ' <tr>
@@ -827,8 +830,8 @@ if ($_POST['action'] == 'searchForDetalle')
       $sniva = round(1 + ($iva / 100),2);
       $impuesto = round($sub_total / $sniva, 2);
       $tl_sniva = round($sub_total - $impuesto, 2);
-      $total = round($tl_sniva + $impuesto, 2);
-
+      //$total = round($tl_sniva + $impuesto, 2);
+      $total =  number_format(($tl_sniva + $impuesto), 2);
       $detalleTotales = '<tr>
       <td colspan="5" class="textright">SUBTOTAL.</td>
       <td class="textright">'.$impuesto.'</td>
@@ -885,7 +888,8 @@ if ($_POST['action'] == 'delProductoDetalle')
 
     }
     while ($data = mysqli_fetch_assoc($query_detalle_temp)) {
-      $precioTotal = round($data['cantidad'] * $data['precio_venta'],2);
+      //$precioTotal = round($data['cantidad'] * $data['precio_venta'],2);
+      $precioTotal = number_format(($data['cantidad'] * $data['precio_venta']),2);
       $sub_total = round($sub_total + $precioTotal, 2);
       $total = round($total + $precioTotal, 2);
       $detalleTabla .= ' <tr>
@@ -904,8 +908,8 @@ if ($_POST['action'] == 'delProductoDetalle')
     $sniva = round(1 + ($iva / 100),2);
     $impuesto = round($sub_total / $sniva, 2);
     $tl_sniva = round($sub_total - $impuesto, 2);
-    $total = round($tl_sniva + $impuesto, 2);
-
+    //$total = round($tl_sniva + $impuesto, 2);
+    $total =  number_format(($tl_sniva + $impuesto), 2);
     $detalleTotales = '<tr>
     <td colspan="5" class="textright1">SUBTOTAL.</td>
     <td class="textright">'.$impuesto.'</td>

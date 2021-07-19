@@ -3,31 +3,6 @@ session_start();
 
 include "../conexion.php";
 
-if(!empty($_POST))
-{
-	$alert='';
-	if(empty($_POST['id']) || empty($_POST['nombre_habitacion']))
-	{
-		$alert='<p class="msg_error">El campo nombre es obligatorio.</p>';
-	}else{
-		$idhabitacion 		= $_POST['id'];
-		$idpiso 			= $_POST['idpiso'];
-		$idcategoria 		= $_POST['idcategoria'];
-		$nombre_habitacion	= $_POST['nombre_habitacion'];
-		$detalles  			= $_POST['detalles'];
-		$precio   			= $_POST['precio'];
-		$condicion			= $_POST['condicion'];
-
-		$query_update = mysqli_query($conection,"UPDATE habitaciones SET idpiso = $idpiso, idcategoria = $idcategoria, nombre_habitacion = '$nombre_habitacion', detalles = '$detalles', precio = '$precio', condicion = '$condicion' WHERE idhabitacion = $idhabitacion");
-
-		if($query_update){ 
-			$alert='<p class="msg_save">Actualizado correctamente.</p>';
-		}else{
-			$alert='<p class="msg_error">Error al actualizar habitación.</p>';
-		}
-	}
-}			
-
 //Mostrar Datos
 if (empty($_REQUEST['id'])) {
 	header("location: lista_habitaciones.php");
@@ -155,7 +130,7 @@ if (empty($_REQUEST['id'])) {
 							</div>
 							<div class="tile-footer">
 								<center>
-								<button type="submit" id="register" class="btn btn-primary"><i class="fa fa-fw fa-lg fa-check-circle"></i> Actualizar Habitación</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary btn_cancelar" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
+								<button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-lg fa-check-circle"></i> Actualizar Habitación</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary btn_cancelar" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
 								</center>
 							</div>
 						</form>
@@ -178,60 +153,72 @@ if (empty($_REQUEST['id'])) {
 	<!-- Page specific javascripts-->
 	<script src="js/sweetalert2.all.min.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>	
-	<script type="text/javascript">
-		$(function(){
-			$('#register').click(function(e){
-				var valid = this.form.checkValidity();
-
-				if(valid){
-					var id                      = $('#id').val();
-					var nombre_habitacion 		= $('#nombre_habitacion').val();
-					var idpiso					= $('#idpiso').val();
-					var idcategoria 			= $('#idcategoria').val();
-					var detalles 				= $('#detalles').val();
-					var precio 					= $('#precio').val();
-					var condicion 				= $('#condicion').val();
-
-					e.preventDefault();	
-
-					$.ajax({
-						type: 'POST',
-						url: 'editar_habitacion.php',
-						data: {id:id,nombre_habitacion: nombre_habitacion,idpiso: idpiso,idcategoria: idcategoria,detalles: detalles,precio: precio,condicion:condicion},
-						success: function(data){
-							Swal.fire({
-								icon: 'success',
-								title: 'Actualizando...',
-								text: 'Datos actualizados correctamente',
-								showConfirmButton: true,
-									/*'title': 'Successful',
-									'text': data,
-									'type': 'success'*/
-								});
-							
-						},
-						error: function(data){
-							Swal.fire({
-								title: 'Error',
-								text: 'Error al actualizar el registro.',
-								type: 'error'
-							});
-						}
-					});
-
-					
-				}else{
-					
-				}
-
-				
-
-
-
-			});		
-
-			
-		});	
-	</script>
+	
 </body>
 </html>
+
+<?php 
+session_start();
+
+include "../conexion.php";
+
+if(!empty($_POST))
+{
+	$alert='';
+	if(empty($_POST['id']) || empty($_POST['nombre_habitacion']))
+	{
+		?>
+		
+		
+		<script type="text/javascript">
+			Swal.fire({
+				icon : 'error',
+				title: 'Error',
+				text: 'El campo nombre es obligatorio',
+				type: 'error',
+			});
+		</script>
+		
+		<?php 
+	}else{
+		$idhabitacion 		= $_POST['id'];
+		$idpiso 			= $_POST['idpiso'];
+		$idcategoria 		= $_POST['idcategoria'];
+		$nombre_habitacion	= $_POST['nombre_habitacion'];
+		$detalles  			= $_POST['detalles'];
+		$precio   			= $_POST['precio'];
+		$condicion			= $_POST['condicion'];
+
+		$query_update = mysqli_query($conection,"UPDATE habitaciones SET idpiso = $idpiso, idcategoria = $idcategoria, nombre_habitacion = '$nombre_habitacion', detalles = '$detalles', precio = '$precio', condicion = '$condicion' WHERE idhabitacion = $idhabitacion");
+
+		if($query_update){ 
+			?>
+			
+			<script type="text/javascript">
+				Swal.fire({
+					icon: 'success',
+					title: 'Guardando...',
+					text: 'Datos actualizados correctamente',
+					showConfirmButton: true,
+
+				});
+			</script>
+			
+			<?php 
+		}else{
+			?>
+
+			<script type="text/javascript">
+				Swal.fire({
+					icon : 'error',
+					title: 'Error',
+					text: 'Error al actualizar registro',
+					type: 'error',
+				});
+			</script>
+
+			<?php 
+		}
+	}
+}
+?>

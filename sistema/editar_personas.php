@@ -8,54 +8,7 @@ if($_SESSION['rol'] != 1)
 
 include "../conexion.php";
 
-if(!empty($_POST))
-{
-	$alert='';
-	if(empty($_POST['id']) || empty($_POST['nombre']))
-	{
-		$alert='<p class="msg_error">Todos los campos son obligatorios.</p>';
-	}else{
-
-		$id 			    	= $_POST['id'];
-		$idtipo 			    = $_POST['idtipo'];
-		$cedula 				= $_POST['cedula'];
-		$nombre 				= $_POST['nombre'];
-		$telefono   			= $_POST['telefono'];
-		$direccion  			= $_POST['direccion'];
-		$correo  				= $_POST['correo'];
-		$razon_social 	 	    = $_POST['razon_social'];
-		$entidad_financiera	    = $_POST['entidad_financiera'];
-		$tipo_cuenta   			= $_POST['tipo_cuenta'];
-		$numero_cuenta  		= $_POST['numero_cuenta'];
-		
-
-		$result = 0;
-
-		if (is_numeric($cedula)) 
-		{
-			$query = mysqli_query($conection,"SELECT * FROM personas 
-				WHERE (cedula = '$cedula' AND idpersona != $id)");
-			$result = mysqli_fetch_array($query);
-			
-
-		}
-
-		$sql_update = mysqli_query($conection,"UPDATE personas SET idtipo = $idtipo, cedula = '$cedula',nombre = '$nombre',telefono='$telefono',direccion='$direccion',razon_social='$razon_social',entidad_financiera='$entidad_financiera', tipo_cuenta='$tipo_cuenta', numero_cuenta='$numero_cuenta', correo='$correo' WHERE idpersona = $id");
-
-
-		if($sql_update){
-			$alert='<p class="msg_save">Registro actualizado correctamente.</p>';
-		}else{
-			$alert='<p class="msg_error">Error al actualizar el registro.</p>';
-		}
-
-	}
-
-
-}
-
-
-	//Mostrar Datos
+//Mostrar Datos
 if(empty($_REQUEST['id']))
 {
 	header('Location: lista_clientes.php');
@@ -155,7 +108,7 @@ include "includes/nav_admin.php";
 
 				<div class="tile-footer">
 					<center>
-						<button type="submit" id="register" class="btn btn-primary"><i class="fa fa-fw fa-lg fa-check-circle"></i> Actualizar Registro</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary btn_cancelar" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
+						<button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-lg fa-check-circle"></i> Actualizar Registro</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary btn_cancelar" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
 					</center>
 				</div>
 
@@ -177,66 +130,91 @@ include "includes/nav_admin.php";
 <!-- Page specific javascripts-->
 <script src="js/sweetalert2.all.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>	
-<script type="text/javascript">
-	$(function(){
-		$('#register').click(function(e){
-			var valid = this.form.checkValidity();
-
-			if(valid){
-				var id                      = $('#id').val();
-				var idtipo                  = $('#idtipo').val();
-				var cedula 					= $('#cedula').val();
-				var nombre 					= $('#nombre').val();
-				var telefono 				= $('#telefono').val();
-				var direccion 				= $('#direccion').val();
-				var correo 					= $('#correo').val();
-				var razon_social 			= $('#razon_social').val();
-				var entidad_financiera 		= $('#entidad_financiera').val();
-				var tipo_cuenta 			= $('#tipo_cuenta').val();
-				var numero_cuenta 			= $('#numero_cuenta').val();
-
-				e.preventDefault();	
-
-				$.ajax({
-					type: 'POST',
-					url: 'editar_personas.php',
-					data: {id: id, idtipo: idtipo, cedula: cedula, nombre: nombre,telefono: telefono,direccion: direccion,correo: correo, razon_social: razon_social, entidad_financiera: entidad_financiera, tipo_cuenta: tipo_cuenta, numero_cuenta: numero_cuenta},
-					success: function(data){
-						Swal.fire({
-							icon: 'success',
-							title: 'Actualizando...',
-							text: 'Datos actualizados correctamente',
-							showConfirmButton: true,
-							type: 'success'
-									/*'title': 'Successful',
-									'text': data,
-									'type': 'success'*/
-								});
-
-					},
-					error: function(data){
-						Swal.fire({
-							title: 'Error',
-							text: 'Error al actualizar el registro.',
-							type: 'error'
-						});
-					}
-				});
-
-
-			}else{
-
-			}
-
-
-
-
-
-		});		
-
-
-	});	
-</script>
+	
 
 </body>
 </html>
+
+<?php 
+
+include "../conexion.php";
+
+if(!empty($_POST))
+{
+	$alert='';
+	if(empty($_POST['id']) || empty($_POST['nombre']))
+	{
+		?>
+		<script type="text/javascript">
+			Swal.fire({
+									icon : 'error',
+									title: 'Error',
+									text: 'El campo nombre es obligatorio',
+									type: 'error',
+								});
+		</script>
+		
+		<?php 
+	}else{
+
+		$id 			    	= $_POST['id'];
+		$idtipo 			    = $_POST['idtipo'];
+		$cedula 				= $_POST['cedula'];
+		$nombre 				= $_POST['nombre'];
+		$telefono   			= $_POST['telefono'];
+		$direccion  			= $_POST['direccion'];
+		$correo  				= $_POST['correo'];
+		$razon_social 	 	    = $_POST['razon_social'];
+		$entidad_financiera	    = $_POST['entidad_financiera'];
+		$tipo_cuenta   			= $_POST['tipo_cuenta'];
+		$numero_cuenta  		= $_POST['numero_cuenta'];
+		
+
+		$result = 0;
+
+		if (is_numeric($cedula)) 
+		{
+			$query = mysqli_query($conection,"SELECT * FROM personas 
+				WHERE (cedula = '$cedula' AND idpersona != $id)");
+			$result = mysqli_fetch_array($query);
+			
+
+		}
+
+		$sql_update = mysqli_query($conection,"UPDATE personas SET idtipo = $idtipo, cedula = '$cedula',nombre = '$nombre',telefono='$telefono',direccion='$direccion',razon_social='$razon_social',entidad_financiera='$entidad_financiera', tipo_cuenta='$tipo_cuenta', numero_cuenta='$numero_cuenta', correo='$correo' WHERE idpersona = $id");
+
+
+		if($sql_update){
+			?>
+			
+			<script type="text/javascript">
+				Swal.fire({
+									icon: 'success',
+									title: 'Guardando...',
+									text: 'Datos actualizados correctamente',
+									showConfirmButton: true,
+									
+								});
+			</script>
+			
+			<?php 
+		}else{
+			?>
+		
+		<script type="text/javascript">
+			Swal.fire({
+									icon : 'error',
+									title: 'Error',
+									text: 'Error al actualizar producto',
+									type: 'error',
+								});
+		</script>
+		
+		<?php 
+		}
+
+	}
+
+
+}
+?>

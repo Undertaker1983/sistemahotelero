@@ -6,59 +6,6 @@ if ($_SESSION['rol']!= 1 and $_SESSION['rol']!= 2) {
 
 include "../conexion.php";
 
-if(!empty($_POST))
-{
-	$alert='';
-	if(empty($_POST['proveedor']) || empty($_POST['producto']) || empty($_POST['precio']) || empty($_POST['precio']) || empty($_POST['id']) || empty($_POST['foto_actual']) || empty($_POST['foto_remove']))
-	{
-		$alert='<p class="msg_error">Los campos son obligatorios.</p>';
-	}else{
-
-		$codproducto	= $_POST['id'];
-		$proveedor 		= $_POST['proveedor'];
-		$producto 		= $_POST['producto'];
-		$precio   		= $_POST['precio'];
-		$imgProducto  	= $_POST['foto_actual'];
-		$imgRemove    	= $_POST['foto_remove'];
-
-		$foto           = $_FILES['foto'];
-		$nombre_foto	=$foto['name'];
-		$type			=$foto['type'];
-		$url_temp		=$foto['tmp_name'];
-		$upd			='';
-
-
-		if ($nombre_foto !='') {
-			$destino       = 'img/uploads/';
-			$img_nombre	   = 'img_'.md5(date('d-m-Y H:m:s'));
-			$imgProducto   = $img_nombre.'.jpg';
-			$src           = $destino.$imgProducto;
-		}else{
-			if ($_POST['foto_actual'] != $_POST['foto_remove']) {
-				$imgProducto = 'img_producto.png';
-			}
-		}
-
-
-		$query_update = mysqli_query($conection,"UPDATE producto SET descripcion = '$producto', proveedor = $proveedor, precio = $precio, foto = '$imgProducto' WHERE codproducto = $codproducto");
-
-		if($query_update){
-			if (($nombre_foto != '' && ($_POST['foto_actual'] != 'img_producto.png')) || ($_POST['foto_actual'] != $_POST['foto_remove']))  {
-				unlink('img/uploads/'.$_POST['foto_actual']);
-			}
-			if ($nombre_foto!='' ) {
-				move_uploaded_file($url_temp,$src);
-			}
-
-			$alert='<p class="msg_save">Producto actualizado correctamente.</p>';
-		}else{
-			$alert='<p class="msg_error">Error al actualizar el producto.</p>';
-		}
-
-	}	
-
-}
-
 	//validar producto
 if (empty($_REQUEST['id'])) {
 	header("location: lista_productos.php");
@@ -179,7 +126,7 @@ if (empty($_REQUEST['id'])) {
 
 							<div class="tile-footer">
 								<center>
-									<button type="submit" id="register" class="btn btn-primary"><i class="fa fa-fw fa-lg fa-check-circle"></i> Actualizar Producto</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary btn_cancelar" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
+									<button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-lg fa-check-circle"></i> Actualizar Producto</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary btn_cancelar" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancelar</a>
 								</center>
 							</div>
 						</form>
@@ -199,60 +146,98 @@ if (empty($_REQUEST['id'])) {
 	<!-- Page specific javascripts-->
 	<script src="js/sweetalert2.all.min.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>	
-	<script type="text/javascript">
-		$(function(){
-			$('#register').click(function(e){
-				var valid = this.form.checkValidity();
-
-				if(valid){
-					var codproducto             = $('#id').val();
-					var proveedor        		= $('#proveedor').val();
-					var producto				= $('#producto').val();
-					var foto_actual 			= $('#foto_actual').val();
-					var foto_remove 			= $('#foto_remove').val();
-					var precio 					= $('#precio').val();
-
-
-					e.preventDefault();	
-
-					$.ajax({
-						type: 'POST',
-						url: 'editar_producto.php',
-						data: {id:codproducto,proveedor: proveedor,producto: producto,foto_actual: foto_actual,foto_remove: foto_remove,precio: precio},
-						success: function(data){
-							Swal.fire({
-								icon: 'success',
-								title: 'Actualizando...',
-								text: 'Datos actualizados correctamente',
-								showConfirmButton: true,
-									/*'title': 'Successful',
-									'text': data,
-									'type': 'success'*/
-								});
-
-						},
-						error: function(data){
-							Swal.fire({
-								title: 'Error',
-								text: 'Error al actualizar el registro.',
-								type: 'error'
-							});
-						}
-					});
-
-
-				}else{
-
-				}
-
-
-
-
-
-			});		
-
-
-		});	
-	</script>
+	
 </body>
 </html>
+<?php 
+
+include "../conexion.php";
+
+if(!empty($_POST))
+{
+	$alert='';
+	if(empty($_POST['proveedor']) || empty($_POST['producto']) || empty($_POST['precio']) || empty($_POST['precio']) || empty($_POST['id']) || empty($_POST['foto_actual']) || empty($_POST['foto_remove']))
+	{
+		?>
+		
+		
+		<script type="text/javascript">
+			Swal.fire({
+									icon : 'error',
+									title: 'Error',
+									text: 'Los campos son obligatorios',
+									type: 'error',
+								});
+		</script>
+		
+		<?php 
+	}else{
+
+		$codproducto	= $_POST['id'];
+		$proveedor 		= $_POST['proveedor'];
+		$producto 		= $_POST['producto'];
+		$precio   		= $_POST['precio'];
+		$imgProducto  	= $_POST['foto_actual'];
+		$imgRemove    	= $_POST['foto_remove'];
+
+		$foto           = $_FILES['foto'];
+		$nombre_foto	=$foto['name'];
+		$type			=$foto['type'];
+		$url_temp		=$foto['tmp_name'];
+		$upd			='';
+
+
+		if ($nombre_foto !='') {
+			$destino       = 'img/uploads/';
+			$img_nombre	   = 'img_'.md5(date('d-m-Y H:m:s'));
+			$imgProducto   = $img_nombre.'.jpg';
+			$src           = $destino.$imgProducto;
+		}else{
+			if ($_POST['foto_actual'] != $_POST['foto_remove']) {
+				$imgProducto = 'img_producto.png';
+			}
+		}
+
+
+		$query_update = mysqli_query($conection,"UPDATE producto SET descripcion = '$producto', proveedor = $proveedor, precio = $precio, foto = '$imgProducto' WHERE codproducto = $codproducto");
+
+		if($query_update){
+			if (($nombre_foto != '' && ($_POST['foto_actual'] != 'img_producto.png')) || ($_POST['foto_actual'] != $_POST['foto_remove']))  {
+				unlink('img/uploads/'.$_POST['foto_actual']);
+			}
+			if ($nombre_foto!='' ) {
+				move_uploaded_file($url_temp,$src);
+			}
+			?>
+			
+			<script type="text/javascript">
+				Swal.fire({
+									icon: 'success',
+									title: 'Guardando...',
+									text: 'Datos actualizados correctamente',
+									showConfirmButton: true,
+									
+								});
+			</script>
+			
+			<?php 
+			
+		}else{
+			?>
+		
+		<script type="text/javascript">
+			Swal.fire({
+									icon : 'error',
+									title: 'Error',
+									text: 'Error al actualizar producto',
+									type: 'error',
+								});
+		</script>
+		
+		<?php 
+		}
+
+	}	
+
+}
+?>

@@ -1405,7 +1405,7 @@ function MostrarAlerta(titulo,descripcion,tipoAlerta){
     //Validar cantidad del producto antes de agregar
     $('#txt_cant_producto').keyup(function(e){
         e.preventDefault();
-        var precio_total = $(this).val() * $('#txt_precio').html();
+        var precio_total = ($(this).val() * $('#txt_precio').html()).toFixed(2);
         var existencia = parseInt($('#txt_existencia').html());
         $('#txt_precio_total').html(precio_total);
 

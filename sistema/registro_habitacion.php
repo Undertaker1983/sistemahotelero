@@ -136,7 +136,7 @@ if(!empty($_POST))
 			Swal.fire({
 				icon : 'error',
 				title: 'Error',
-				text: 'Los campos nombre y precio son obligatorio',
+				text: 'Los campos nombre y precio son obligatorios',
 				type: 'error',
 			});
 		</script>

@@ -17,11 +17,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Main CSS-->
     <link rel="stylesheet" type="text/css" href="../css/main.css">
-     <link rel="stylesheet" type="text/css" href="../css/estilo.css">
-
+    <link rel="stylesheet" type="text/css" href="../css/estilo.css">
     <link rel="stylesheet" type="text/css" href="../css/responsive.css">
-   <!--   <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
-   Font-icon css-->
+    <link rel="stylesheet" type="text/css" href="../js/plugins/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/plugins/DataTables-1.10.24/css/dataTables.bootstrap4.min.css">
+   <!--Font-icon css-->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     
   </head>
